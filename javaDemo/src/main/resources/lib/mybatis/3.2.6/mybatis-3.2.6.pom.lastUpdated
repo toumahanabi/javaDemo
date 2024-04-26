@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Jan 21 15:37:46 CST 2022
+ce51b1e720cb56bb334dbbf110dbbd7ad1bc063a@rep.proxy.nic.fujitsu.com\:8080>@default-fnst_nexus-http\://maven.fnst.cn.fujitsu.com/repository/maven-public/.lastUpdated=1642750666404
+http\://maven.fnst.cn.fujitsu.com/repository/maven-public/.error=Could not transfer artifact org.mybatis\:mybatis\:pom\:3.2.6 from/to fnst_nexus (http\://maven.fnst.cn.fujitsu.com/repository/maven-public/)\: The operation was cancelled.

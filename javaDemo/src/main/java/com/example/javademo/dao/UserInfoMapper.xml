@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.javademo.dao.UserInfoMapper">
+
+    <insert id="insertUserInfo" parameterType="UserInfo">
+        INSERT INTO user_info (userId, userName, contactInfo, email, dept, userPermission, createdDate, modifiedDate, deletedDate, deleteFlag)
+        VALUES (#{userId}, #{userName}, #{contactInfo}, #{email}, #{dept}, #{userPermission}, #{createdDate}, #{modifiedDate}, #{deletedDate}, #{deleteFlag})
+    </insert>
+
+    <update id="updateUser" parameterType="UserInfo">
+        update user_info
+        <set>
+            <if test="userName != null">userName = #{userName},</if>
+            <if test="contactInfo != null">contactInfo = #{contactInfo},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="dept != null">dept = #{dept},</if>
+            <if test="userPermission != null">userPermission = #{userPermission},</if>
+            <if test="createdDate != null">createdDate = #{createdDate},</if>
+            <if test="modifiedDate != null">modifiedDate = #{modifiedDate},</if>
+            <if test="deletedDate != null">deletedDate = #{deletedDate},</if>
+            <if test="deleteFlag != null">deleteFlag = #{deleteFlag}</if>
+        </set>
+        where userId = #{userId}
+    </update>
+
+    <update id="updateMap" parameterType="map">
+        update user_info
+        set userName = #{userName}
+        where userId = #{id}
+    </update>
+
+
+    <select id="findAllUser" resultType="UserInfo">
+        select * from user_info
+    </select>
+
+    <select id="getUserById" parameterType="string" resultType="UserInfo">
+        select * from user_info where userId = #{id}
+    </select>
+
+    <select id="getUserLike" parameterType="string" resultType="UserInfo">
+        select * from user_info where userName like "%" #{userName} "%"
+    </select>
+
+    <!--resultMap-->
+    <resultMap id="UserMap" type="UserInfo">
+        <result column="userId" property="userId"/>
+        <result column="loginName" property="loginName"/>
+        <result column="loginPassword" property="loginPassword"/>
+        <result column="createdDate" property="createdDate"/>
+        <result column="modifiedDate" property="modifiedDate"/>
+        <result column="deletedDate" property="deletedDate"/>
+        <result column="deleteFlag" property="deleteFlag"/>
+    </resultMap>
+    <select id="getUserMapById" parameterType="string" resultMap="UserMap">
+        select * from user_info where userId = #{id}
+    </select>
+
+    <!--limit-->
+    <select id="getListByLimit" parameterType="map" resultMap="UserMap">
+        select * from  user_info limit #{startIndex}, #{pageSize}
+    </select>
+
+    <!--RowBounds-->
+    <select id="getListByRowBounds" resultMap="UserMap">
+        select * from  user_info
+    </select>
+
+    <select id="selectAllUser" resultMap="UserMap">
+        select * from user_info
+    </select>
+
+    <select id="getInfo1" resultMap="InfoDept1">
+        select u.userId, u.userName , d.deptNo, d.deptName
+        from user_info u, dept d
+        where u.dept = d.deptNo
+    </select>
+    <resultMap id="InfoDept1" type="InfoEntity">
+        <result property="userId" column="userId"/>
+        <result property="userName" column="userName"/>
+        <association property="dept" javaType="Dept">
+            <result property="deptNo" column="deptNo"/>
+            <result property="deptName" column="deptName"/>
+        </association>
+    </resultMap>
+
+    <select id="getInfo2" resultMap="InfoDept">
+        select userId, userName , dept from user_info
+    </select>
+    <resultMap id="InfoDept" type="InfoEntity">
+        <result property="userId" column="userId"/>
+        <result property="userName" column="userName"/>
+        <association property="dept" column="dept" javaType="Dept" select="getDeptInfo"/>
+    </resultMap>
+    <select id="getDeptInfo" resultType="Dept">
+        select * from dept where deptNo = #{deptNo}
+    </select>
+
+    <select id="getUserInfoList1" resultMap="InfoUser1">
+        select * from dept d,user_info u where d.deptNo = u.dept and d.deptNo = #{deptNo}
+    </select>
+    <resultMap id="InfoUser1" type="Team">
+        <result property="deptNo" column="deptNo"/>
+        <result property="deptName" column="deptName"/>
+        <collection property="userInfoEntityList" ofType="UserInfo">
+            <result property="userId" column="userId"/>
+            <result property="userName" column="userName"/>
+            <result property="contactInfo" column="contactInfo"/>
+            <result property="email" column="email"/>
+            <result property="dept" column="dept"/>
+            <result property="userPermission" column="userPermission"/>
+            <result property="createdDate" column="createdDate"/>
+            <result property="modifiedDate" column="modifiedDate"/>
+            <result property="deletedDate" column="deletedDate"/>
+            <result property="deleteFlag" column="deleteFlag"/>
+        </collection>
+    </resultMap>
+
+    <select id="getUserInfoList2" resultMap="InfoUser">
+        select * from dept where deptNo = #{deptNo}
+    </select>
+    <resultMap id="InfoUser" type="Team">
+        <collection property="userInfoEntityList" javaType="ArrayList" ofType="UserInfo" select="getUserInfoList" column="deptNo"/>
+    </resultMap>
+    <select id="getUserInfoList" resultType="UserInfo">
+        select * from user_info where dept = #{deptNo}
+    </select>
+</mapper>

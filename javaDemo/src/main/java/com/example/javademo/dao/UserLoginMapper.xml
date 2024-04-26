@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserLoginMapper">
+    <insert id="insertUserLogin">
+        INSERT INTO user_login (user_id, login_name, login_password, created_date, modified_date, deleted_date, delete_flag)
+        VALUES (#{userId}, #{loginName}, #{loginPassword}, #{createdDate}, #{modifiedDate}, #{deletedDate}, #{deleteFlag})
+    </insert>
+</mapper>

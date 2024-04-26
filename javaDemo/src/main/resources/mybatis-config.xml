@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="db.properties"/>
+
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true" />
+        <setting name="aggressiveLazyLoading" value="false"/>
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.example.javademo.entity.UserInfoEntity" alias="UserInfo"/>
+        <typeAlias type="com.example.javademo.entity.InfoEntity" alias="InfoEntity"/>
+        <typeAlias type="com.example.javademo.entity.Dept" alias="Dept"/>
+        <typeAlias type="com.example.javademo.entity.Team" alias="Team"/>
+<!--        <package name="com.example.javademo.entity"/>-->
+    </typeAliases>
+
+<!--    <plugins>-->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+<!--            <property name="param1" value="value1"/>-->
+<!--        </plugin>-->
+<!--    </plugins>-->
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+<!--        <mapper class="com.example.javademo.dao.UserInfoMapper"/>-->
+        <mapper resource="com/example/javademo/dao/UserInfoMapper.xml"/>
+        <mapper resource="com/example/javademo/dao/UserLoginMapper.xml"/>
+<!--        <mapper resource="mapper/UserInfoMapper.xml"/>-->
+    </mappers>
+
+</configuration>
